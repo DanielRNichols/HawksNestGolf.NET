@@ -1,0 +1,46 @@
+﻿@page "/admin/tournaments"
+
+@inject HttpClient Http
+
+<PageTitle>Hawks Nest Golf - Tournaments</PageTitle>
+
+<h3>Tournaments</h3>
+
+
+@if (tournaments == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tournament in tournaments)
+            {
+                <tr>
+                    <td>@tournament.Id</td>
+                    <td>@tournament.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<Tournament>? tournaments;
+    private const string apiUrl = "https://localhost:7200/api";
+    private const string url = $"{apiUrl}/tournaments";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var apiResponse = await Http.GetFromJsonAsync<ApiResponse<IList<Tournament>>>(url);
+        if (apiResponse is not null && apiResponse.Success)
+            tournaments = apiResponse.Data;
+    }
+}

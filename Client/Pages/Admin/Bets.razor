@@ -1,0 +1,48 @@
+﻿@page "/admin/bets"
+
+@inject HttpClient Http
+
+<PageTitle>Hawks Nest Golf - Bets</PageTitle>
+
+<h3>Bets</h3>
+
+
+@if (bets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Default Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bet in bets)
+            {
+                <tr>
+                    <td>@bet.Id</td>
+                    <td>@bet.Name</td>
+                    <td>@bet.DefAmount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<Bet>? bets;
+    private const string apiUrl = "https://localhost:7200/api";
+    private const string url = $"{apiUrl}/bets";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var apiResponse = await Http.GetFromJsonAsync<ApiResponse<IList<Bet>>>(url);
+        if (apiResponse is not null && apiResponse.Success)
+            bets = apiResponse.Data;
+    }
+}
