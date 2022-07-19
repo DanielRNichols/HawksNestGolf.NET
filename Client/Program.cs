@@ -1,4 +1,7 @@
 using HawksNestGolf.NET.Client;
+using HawksNestGolf.NET.Client.Interfaces;
+using HawksNestGolf.NET.Client.Services;
+using HawksNestGolf.NET.Shared.Models;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -13,6 +16,10 @@ namespace HawksNestGolf.NET.Client
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+            builder.Services.AddScoped<IBetsDataService, BetsDataService>();
+            builder.Services.AddScoped<IPlayersDataService, PlayersDataService>();
+            builder.Services.AddScoped<ITournamentsDataService, TournamentsDataService>();
 
             await builder.Build().RunAsync();
         }

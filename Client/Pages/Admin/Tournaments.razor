@@ -1,6 +1,6 @@
 ﻿@page "/admin/tournaments"
 
-@inject HttpClient Http
+@inject ITournamentsDataService TournamentsDataService
 
 <PageTitle>Hawks Nest Golf - Tournaments</PageTitle>
 
@@ -16,10 +16,6 @@ else
 }
 
 @code {
-    private IList<Tournament>? tournaments;
-    private const string apiUrl = "https://localhost:7200/api";
-    private const string url = $"{apiUrl}/tournaments";
-
     private IList<ColumnDefinition<Tournament>> columns = new List<ColumnDefinition<Tournament>>
     {
         new ColumnDefinition<Tournament> { Header = "Id", Value = x => x.Id},
@@ -31,8 +27,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var apiResponse = await Http.GetFromJsonAsync<ApiResponse<IList<Tournament>>>(url);
-        if (apiResponse is not null && apiResponse.Success)
+        var apiResponse = await TournamentsDataService.GetAll();
+        if (apiResponse.Success)
             items = apiResponse.Data;
     }
 }

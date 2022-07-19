@@ -1,6 +1,6 @@
 ﻿@page "/admin/players"
 
-@inject HttpClient Http
+@inject IPlayersDataService PlayersDataService
 
 <PageTitle>Hawks Nest Golf - Players</PageTitle>
 <h3>Players</h3>
@@ -15,9 +15,6 @@ else
 }
 
 @code {
-    private const string apiUrl = "https://localhost:7200/api";
-    private const string url = $"{apiUrl}/players";
-
     private IList<ColumnDefinition<Player>> columns = new List<ColumnDefinition<Player>>
     {
         new ColumnDefinition<Player> { Header = "Id", Value = x => x.Id},
@@ -30,8 +27,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var apiResponse = await Http.GetFromJsonAsync<ApiResponse<IList<Player>>>(url);
-        if (apiResponse is not null && apiResponse.Success)
+        var apiResponse = await PlayersDataService.GetAll();
+        if (apiResponse.Success)
         {
             items = apiResponse.Data;
         }
