@@ -14,4 +14,14 @@ namespace HawksNestGolf.NET.Server.Repositories
         public TournamentsRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.Tournaments) {}
 
     }
+    public class PlayersRepository : BaseDbResourceRepository<Player>, IPlayersRepository
+    {
+        public PlayersRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.Players) { }
+
+    }
+    public class GolfersRepository : BaseDbResourceRepository<Golfer>, IGolfersRepository
+    {
+        public GolfersRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.Golfers) { }
+
+    }
 }

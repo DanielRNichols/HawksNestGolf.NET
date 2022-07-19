@@ -1,0 +1,18 @@
+﻿using HawksNestGolf.NET.Server.Repositories;
+using HawksNestGolf.NET.Shared.Interfaces.Repositories;
+
+namespace HawksNestGolf.NET.Server.Extensions
+{
+    public static class RepositoriesServiceCollectionExtension
+    {
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IBetsRepository, BetsRepository>();
+            services.AddScoped<ITournamentsRepository, TournamentsRepository>();
+            services.AddScoped<IPlayersRepository, PlayersRepository>();
+            services.AddScoped<IGolfersRepository, GolfersRepository>();
+
+            return services;
+        }
+    }
+}

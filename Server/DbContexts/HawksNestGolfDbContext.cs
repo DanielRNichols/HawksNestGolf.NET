@@ -11,5 +11,7 @@ namespace HawksNestGolf.NET.Server.DbContexts
         }
         public DbSet<Bet> Bets { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Golfer> Golfers { get; set; }
     }
 }

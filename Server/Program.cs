@@ -1,4 +1,5 @@
 using HawksNestGolf.NET.Server.DbContexts;
+using HawksNestGolf.NET.Server.Extensions;
 using HawksNestGolf.NET.Server.Middleware;
 using HawksNestGolf.NET.Server.Repositories;
 using HawksNestGolf.NET.Shared.Interfaces.Repositories;
@@ -29,9 +30,7 @@ namespace HawksNestGolf.NET
             });
 
             // Add Repositories
-            builder.Services.AddScoped<IBetsRepository, BetsRepository>();
-            builder.Services.AddScoped<ITournamentsRepository, TournamentsRepository>();
-
+            builder.Services.AddRepositories();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
