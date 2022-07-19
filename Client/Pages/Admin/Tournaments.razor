@@ -6,30 +6,13 @@
 
 <h3>Tournaments</h3>
 
-
-@if (tournaments == null)
+@if (items is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var tournament in tournaments)
-            {
-                <tr>
-                    <td>@tournament.Id</td>
-                    <td>@tournament.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <ItemsTable Items=@items Columns=@columns />
 }
 
 @code {
@@ -37,10 +20,19 @@ else
     private const string apiUrl = "https://localhost:7200/api";
     private const string url = $"{apiUrl}/tournaments";
 
+    private IList<ColumnDefinition<Tournament>> columns = new List<ColumnDefinition<Tournament>>
+    {
+        new ColumnDefinition<Tournament> { Header = "Id", Value = x => x.Id},
+        new ColumnDefinition<Tournament> { Header = "Name", Value = x => x.Name}
+    };
+
+    private IList<Tournament>? items { get; set; } = null;
+
+
     protected override async Task OnInitializedAsync()
     {
         var apiResponse = await Http.GetFromJsonAsync<ApiResponse<IList<Tournament>>>(url);
         if (apiResponse is not null && apiResponse.Success)
-            tournaments = apiResponse.Data;
+            items = apiResponse.Data;
     }
 }

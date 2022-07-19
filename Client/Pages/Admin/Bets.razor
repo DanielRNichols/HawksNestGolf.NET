@@ -7,42 +7,34 @@
 <h3>Bets</h3>
 
 
-@if (bets == null)
+@if (items is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Default Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var bet in bets)
-            {
-                <tr>
-                    <td>@bet.Id</td>
-                    <td>@bet.Name</td>
-                    <td>@bet.DefAmount</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <ItemsTable Items=@items Columns=@columns />
 }
 
 @code {
-    private IList<Bet>? bets;
     private const string apiUrl = "https://localhost:7200/api";
     private const string url = $"{apiUrl}/bets";
+
+    private IList<ColumnDefinition<Bet>> columns = new List<ColumnDefinition<Bet>>
+    {
+        new ColumnDefinition<Bet> { Header = "Id", Value = x => x.Id},
+        new ColumnDefinition<Bet> { Header = "Name", Value = x => x.Name},
+        new ColumnDefinition<Bet> { Header = "Default Amount", Value = x => x.DefAmount}
+    };
+
+    private IList<Bet>? items { get; set; } = null;
 
     protected override async Task OnInitializedAsync()
     {
         var apiResponse = await Http.GetFromJsonAsync<ApiResponse<IList<Bet>>>(url);
         if (apiResponse is not null && apiResponse.Success)
-            bets = apiResponse.Data;
+        {
+            items = apiResponse.Data;
+        }
     }
 }

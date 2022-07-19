@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawksNestGolf.NET.Server", "Server\HawksNestGolf.NET.Server.csproj", "{73878C4B-B8F6-4992-95CF-A0D56101F473}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HawksNestGolf.NET.Server", "Server\HawksNestGolf.NET.Server.csproj", "{73878C4B-B8F6-4992-95CF-A0D56101F473}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawksNestGolf.NET.Client", "Client\HawksNestGolf.NET.Client.csproj", "{BFEC081D-96BA-4AB0-9ED6-E90701B7E310}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HawksNestGolf.NET.Client", "Client\HawksNestGolf.NET.Client.csproj", "{BFEC081D-96BA-4AB0-9ED6-E90701B7E310}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawksNestGolf.NET.Shared", "Shared\HawksNestGolf.NET.Shared.csproj", "{E12A56CE-E554-43E6-A963-59A72FFEB558}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HawksNestGolf.NET.Shared", "Shared\HawksNestGolf.NET.Shared.csproj", "{E12A56CE-E554-43E6-A963-59A72FFEB558}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -25,7 +25,7 @@ namespace HawksNestGolf.NET.Server.Controllers.Api
             var items = await _repo.GetAll();
             var response = new ApiResponse<IList<T>> { Data = items };
 
-            return Ok(items);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -38,7 +38,7 @@ namespace HawksNestGolf.NET.Server.Controllers.Api
 
             var response = new ApiResponse<T> { Data = item };
 
-            return Ok(item);
+            return Ok(response);
         }
     }
 }

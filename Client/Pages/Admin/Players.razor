@@ -1,0 +1,41 @@
+﻿@page "/admin/players"
+
+@inject HttpClient Http
+
+<PageTitle>Hawks Nest Golf - Players</PageTitle>
+<h3>Players</h3>
+
+@if (items is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ItemsTable Items=@items Columns=@columns />
+}
+
+@code {
+    private const string apiUrl = "https://localhost:7200/api";
+    private const string url = $"{apiUrl}/players";
+
+    private IList<ColumnDefinition<Player>> columns = new List<ColumnDefinition<Player>>
+    {
+        new ColumnDefinition<Player> { Header = "Id", Value = x => x.Id},
+        new ColumnDefinition<Player> { Header = "Name", Value = x => x.Name ?? ""},
+        new ColumnDefinition<Player> { Header = "Email", Value = x => x.Email ?? ""},
+        new ColumnDefinition<Player> { Header = "Email2", Value = x => x.Email2 ?? ""}
+    };
+
+    private IList<Player>? items { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var apiResponse = await Http.GetFromJsonAsync<ApiResponse<IList<Player>>>(url);
+        if (apiResponse is not null && apiResponse.Success)
+        {
+            items = apiResponse.Data;
+        }
+    }
+
+
+}

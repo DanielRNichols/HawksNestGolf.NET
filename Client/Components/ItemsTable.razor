@@ -1,0 +1,34 @@
+﻿@typeparam T
+
+@if (Items is not null && Columns is not null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (var col in Columns)
+                {
+                    <th>@col.Header</th>        
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Items)
+            {
+                <tr>
+                    @foreach (var col in Columns)
+                    {
+                        <td>@col.Value(item)</td>        
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter] public IList<T>? Items { get; set; }
+
+    [Parameter] public IList<ColumnDefinition<T>>? Columns { get; set; }
+
+
+}
