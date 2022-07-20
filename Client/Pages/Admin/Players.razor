@@ -5,34 +5,36 @@
 <PageTitle>Hawks Nest Golf - Players</PageTitle>
 <h3>Players</h3>
 
-@if (items is null)
+@if (table is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <ItemsTable Items=@items Columns=@columns />
+    <ItemsTable table=@table />
 }
 
 @code {
-    private IList<ColumnDefinition<Player>> columns = new List<ColumnDefinition<Player>>
-    {
-        new ColumnDefinition<Player> { Header = "Id", Value = x => x.Id},
-        new ColumnDefinition<Player> { Header = "Name", Value = x => x.Name ?? ""},
-        new ColumnDefinition<Player> { Header = "Email", Value = x => x.Email ?? ""},
-        new ColumnDefinition<Player> { Header = "Email2", Value = x => x.Email2 ?? ""}
-    };
+    private TableDefinition<Player>? table { get; set; } = null;
 
-    private IList<Player>? items { get; set; } = null;
 
     protected override async Task OnInitializedAsync()
     {
         var apiResponse = await PlayersDataService.GetAll();
         if (apiResponse.Success)
         {
-            items = apiResponse.Data;
+            table = new TableDefinition<Player>(Columns, apiResponse.Data);
         }
     }
+
+    private IList<ColumnDefinition<Player>> Columns => new List<ColumnDefinition<Player>>
+        {
+        new ColumnDefinition<Player> { Header = "Id", Value = x => x.Id},
+        new ColumnDefinition<Player> { Header = "Name", Value = x => x.Name ?? ""},
+        new ColumnDefinition<Player> { Header = "Email", Value = x => x.Email ?? ""},
+        new ColumnDefinition<Player> { Header = "Email2", Value = x => x.Email2 ?? ""}
+        };
+
 
 
 }

@@ -1,21 +1,21 @@
 ﻿@typeparam T
 
-@if (Items is not null && Columns is not null)
+@if (table?.Items is not null && table?.Columns is not null)
 {
     <table class="table">
         <thead>
             <tr>
-                @foreach (var col in Columns)
+                @foreach (var col in table.Columns)
                 {
                     <th>@col.Header</th>        
                 }
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Items)
+            @foreach (var item in table.Items)
             {
                 <tr>
-                    @foreach (var col in Columns)
+                    @foreach (var col in table.Columns)
                     {
                         <td>@col.Value(item)</td>        
                     }
@@ -26,9 +26,6 @@
 }
 
 @code {
-    [Parameter] public IList<T>? Items { get; set; }
-
-    [Parameter] public IList<ColumnDefinition<T>>? Columns { get; set; }
-
+    [Parameter] public TableDefinition<T>? table { get; set; }
 
 }

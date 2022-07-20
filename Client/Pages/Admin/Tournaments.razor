@@ -6,29 +6,33 @@
 
 <h3>Tournaments</h3>
 
-@if (items is null)
+@if (table is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <ItemsTable Items=@items Columns=@columns />
+    <ItemsTable table=@table />
 }
 
 @code {
-    private IList<ColumnDefinition<Tournament>> columns = new List<ColumnDefinition<Tournament>>
-    {
-        new ColumnDefinition<Tournament> { Header = "Id", Value = x => x.Id},
-        new ColumnDefinition<Tournament> { Header = "Name", Value = x => x.Name}
-    };
-
-    private IList<Tournament>? items { get; set; } = null;
+    private TableDefinition<Tournament>? table { get; set; } = null;
 
 
     protected override async Task OnInitializedAsync()
     {
         var apiResponse = await TournamentsDataService.GetAll();
         if (apiResponse.Success)
-            items = apiResponse.Data;
+        {
+            table = new TableDefinition<Tournament>(Columns, apiResponse.Data);
+        }
     }
+
+    private IList<ColumnDefinition<Tournament>> Columns => new List<ColumnDefinition<Tournament>>
+        {
+            new ColumnDefinition<Tournament> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<Tournament> { Header = "Name", Value = x => x.Name}
+        };
+
+
 }

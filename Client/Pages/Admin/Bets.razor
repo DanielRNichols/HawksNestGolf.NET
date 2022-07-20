@@ -7,32 +7,32 @@
 <h3>Bets</h3>
 
 
-@if (items is null)
+@if (table is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <ItemsTable Items=@items Columns=@columns />
+    <ItemsTable table=@table />
 }
 
 @code {
 
-    private IList<ColumnDefinition<Bet>> columns = new List<ColumnDefinition<Bet>>
-    {
-        new ColumnDefinition<Bet> { Header = "Id", Value = x => x.Id},
-        new ColumnDefinition<Bet> { Header = "Name", Value = x => x.Name},
-        new ColumnDefinition<Bet> { Header = "Default Amount", Value = x => x.DefAmount}
-    };
-
-    private IList<Bet>? items { get; set; } = null;
+    private TableDefinition<Bet>? table = null;
 
     protected override async Task OnInitializedAsync()
     {
         var apiResponse = await BetsDataService.GetAll();
         if (apiResponse.Success)
         {
-            items = apiResponse.Data;
+            table = new TableDefinition<Bet>(Columns, apiResponse.Data);
         }
     }
+
+    private IList<ColumnDefinition<Bet>> Columns => new List<ColumnDefinition<Bet>>
+        {
+            new ColumnDefinition<Bet> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<Bet> { Header = "Name", Value = x => x.Name},
+            new ColumnDefinition<Bet> { Header = "Default Amount", Value = x => x.DefAmount}
+        };
 }
