@@ -9,6 +9,10 @@
                 {
                     <th>@col.Header</th>        
                 }
+                @if(table?.RowActions is not null)
+                {
+                    <th>Actions</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -18,6 +22,20 @@
                     @foreach (var col in table.Columns)
                     {
                         <td>@col.Value(item)</td>        
+                    }
+                    @if(table?.RowActions is not null)
+                    {
+                        @foreach(var action in table.RowActions)
+                        {
+                            <td>
+                                @if(action?.Action is not null)
+                                {
+                                    <a href="#" @onclick=@(_ => action.Action(item))>
+                                        <span class="@action.Icon" aria-hidden="true"></span>
+                                    </a>
+                                }
+                            </td>
+                        }
                     }
                 </tr>
             }

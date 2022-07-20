@@ -25,7 +25,7 @@ else
         var apiResponse = await BetsDataService.GetAll();
         if (apiResponse.Success)
         {
-            table = new TableDefinition<Bet>(Columns, apiResponse.Data);
+            table = new TableDefinition<Bet>(Columns, apiResponse.Data, RowActions);
         }
     }
 
@@ -35,4 +35,20 @@ else
             new ColumnDefinition<Bet> { Header = "Name", Value = x => x.Name},
             new ColumnDefinition<Bet> { Header = "Default Amount", Value = x => x.DefAmount}
         };
+
+    private IList<RowAction<Bet>> RowActions => new List<RowAction<Bet>>
+        {
+            new RowAction<Bet> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<Bet> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        };
+
+    private void Details(Bet b)
+    {
+        Console.WriteLine($"Bet Details: {b.Id}, {b.Name}, {b.DefAmount}");
+    }
+
+    private void Edit(Bet b)
+    {
+        Console.WriteLine($"Edit Bet: {b.Id}, {b.Name}, {b.DefAmount}");
+    }
 }
