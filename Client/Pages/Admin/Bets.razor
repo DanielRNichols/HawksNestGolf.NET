@@ -25,7 +25,7 @@ else
         var apiResponse = await BetsDataService.GetAll();
         if (apiResponse.Success)
         {
-            table = new TableDefinition<Bet>(Columns, apiResponse.Data, RowActions);
+            table = new TableDefinition<Bet>(Columns, apiResponse.Data, RowActions, TableActions);
         }
     }
 
@@ -42,6 +42,13 @@ else
             new RowAction<Bet> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
         };
 
+    private IList<TableAction<Bet>> TableActions => new List<TableAction<Bet>>
+        {
+            new TableAction<Bet> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<Bet> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<Bet> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        };
+
     private void Details(Bet b)
     {
         Console.WriteLine($"Bet Details: {b.Id}, {b.Name}, {b.DefAmount}");
@@ -50,5 +57,20 @@ else
     private void Edit(Bet b)
     {
         Console.WriteLine($"Edit Bet: {b.Id}, {b.Name}, {b.DefAmount}");
+    }
+
+    private void Add(IList<Bet> bets)
+    {
+        Console.WriteLine("Add a new bet");
+    }
+
+    private void Clear(IList<Bet> bets)
+    {
+        Console.WriteLine("Clear bets");
+    }
+
+    private void Export(IList<Bet> bets)
+    {
+        Console.WriteLine("Export bets");
     }
 }

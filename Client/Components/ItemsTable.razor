@@ -2,6 +2,20 @@
 
 @if (table?.Items is not null && table?.Columns is not null)
 {
+    <div>
+        @if(table?.TableActions is not null)
+        {
+            @foreach(var action in table.TableActions)
+            {
+                @if(action?.Action is not null)
+                {
+                    <a @onclick=@(_ => action.Action(table.Items))>
+                        <span class="oi oi-@action.Icon" aria-hidden="true"></span>
+                    </a>
+                }
+            }
+        }
+    </div>
     <table class="table">
         <thead>
             <tr>
