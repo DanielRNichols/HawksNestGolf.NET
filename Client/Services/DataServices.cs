@@ -25,4 +25,15 @@ namespace HawksNestGolf.NET.Client.Services
 
     }
 
+    public class MessagesDataService : BaseDataService<Message>, IMessagesDataService
+    {
+        public MessagesDataService(HttpClient httpClient) : base(httpClient, "messages") { }
+
+    }
+
+    public class EventsDataService : BaseDataService<Event>, IEventsDataService
+    {
+        public EventsDataService(HttpClient httpClient) : base(httpClient, "events") { }
+
+    }
 }

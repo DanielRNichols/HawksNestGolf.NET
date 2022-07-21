@@ -1,0 +1,59 @@
+﻿@page "/admin/messages"
+@inject IMessagesDataService MessagesDataService
+
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
+
+@code {
+    private string header = "Messages";
+    private string title = "Hawks Nest Golf - Messages";
+    private TableDefinition<Message> table = new TableDefinition<Message>
+    {
+        Columns = new List<ColumnDefinition<Message>>
+        {
+            new ColumnDefinition<Message> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<Message> { Header = "Player", Value = x => x.Player?.Name ?? ""},
+            new ColumnDefinition<Message> { Header = "Message", Value = x => x.Content ?? ""},
+        },
+        RowActions = new List<RowAction<Message>>
+        {
+            new RowAction<Message> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<Message> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<Message>>
+        {
+            new TableAction<Message> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<Message> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<Message> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
+
+    private async Task<ApiResponse<IList<Message>>> GetItems() => await MessagesDataService.GetAll();
+
+    private static void Details(Message m)
+    {
+        Console.WriteLine($"Message Details: {m.Id}, {m.PlayerId}, {m.Content}");
+    }
+
+    private static void Edit(Message m)
+    {
+        Console.WriteLine($"Message Details: {m.Id}, {m.PlayerId}, {m.Content}");
+    }
+
+    private static void Add(IList<Message> messages)
+    {
+        Console.WriteLine("Add a new message");
+    }
+
+    private static void Clear(IList<Message> messages)
+    {
+        Console.WriteLine("Clear messages");
+    }
+
+    private static void Export(IList<Message> messages)
+    {
+        Console.WriteLine("Export messages");
+    }
+
+
+
+}

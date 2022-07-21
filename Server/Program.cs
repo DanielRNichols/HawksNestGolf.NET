@@ -5,6 +5,7 @@ using HawksNestGolf.NET.Server.Repositories;
 using HawksNestGolf.NET.Shared.Interfaces.Repositories;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace HawksNestGolf.NET
 {
@@ -32,7 +33,10 @@ namespace HawksNestGolf.NET
             // Add Repositories
             builder.Services.AddRepositories();
 
-            builder.Services.AddControllersWithViews();
+            // Add Controllers and JsonOptions to avoid circular references
+            builder.Services.AddControllersWithViews().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
             builder.Services.AddRazorPages();
 
             var app = builder.Build();

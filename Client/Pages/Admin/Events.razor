@@ -1,0 +1,62 @@
+﻿@page "/admin/events"
+@inject IEventsDataService EventsDataService
+
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
+
+@code {
+    private string header = "Events";
+    private string title = "Hawks Nest Golf - Events";
+    private TableDefinition<Event> table = new TableDefinition<Event>
+    {
+        Columns = new List<ColumnDefinition<Event>>
+        {
+            new ColumnDefinition<Event> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<Event> { Header = "Event #", Value = x => x.EventNo},
+            new ColumnDefinition<Event> { Header = "Tournament", Value = x => x.Tournament?.Name ?? ""},
+            new ColumnDefinition<Event> { Header = "Year", Value = x => x.Year},
+            new ColumnDefinition<Event> { Header = "Entry Fee", Value = x => x.EntryFee},
+            new ColumnDefinition<Event> { Header = "Status", Value = x => x.Status},
+        },
+        RowActions = new List<RowAction<Event>>
+        {
+            new RowAction<Event> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<Event> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<Event>>
+        {
+            new TableAction<Event> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<Event> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<Event> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
+
+    private async Task<ApiResponse<IList<Event>>> GetItems() => await EventsDataService.GetAll();
+
+    private static void Details(Event e)
+    {
+        Console.WriteLine($"Event Details: {e.Id}, {e.EventNo}, {e.Year}, {e.Tournament?.Name ?? ""}");
+    }
+
+    private static void Edit(Event e)
+    {
+        Console.WriteLine($"Event Details: {e.Id}, {e.EventNo}, {e.Year},{e.Tournament?.Name ?? ""}");
+    }
+
+    private static void Add(IList<Event> events)
+    {
+        Console.WriteLine("Add a new event");
+    }
+
+    private static void Clear(IList<Event> events)
+    {
+        Console.WriteLine("Clear events");
+    }
+
+    private static void Export(IList<Event> events)
+    {
+        Console.WriteLine("Export events");
+    }
+
+
+
+}
