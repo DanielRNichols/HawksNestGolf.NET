@@ -1,0 +1,43 @@
+﻿@typeparam T
+
+@if (header is not null)
+{
+    <h3>@header</h3>
+}
+
+@if (title is not null)
+{
+    <PageTitle>@title</PageTitle>
+}
+
+@if(tableDefinition is not null)
+{
+    @if(tableDefinition.Items is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <ItemsTable table=@tableDefinition />
+    }
+}
+
+@code {
+    [Parameter] public string? header { get; set; }
+    [Parameter] public string? title { get; set; }
+    [Parameter] public TableDefinition<T>? tableDefinition { get; set; }
+    [Parameter] public Func<Task<ApiResponse<IList<T>>>>? getItems { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (getItems is null || tableDefinition is null)
+            return;
+        var apiResponse = await getItems();
+        if (apiResponse is not null && apiResponse.Success)
+        {
+            tableDefinition.Items = apiResponse.Data;
+        }
+    }
+
+
+}

@@ -1,75 +1,55 @@
 ﻿@page "/admin/bets"
-
 @inject IBetsDataService BetsDataService
 
-<PageTitle>Hawks Nest Golf - Bets</PageTitle>
-
-<h3>Bets</h3>
-
-
-@if (table is null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <ItemsTable table=@table />
-}
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
 
 @code {
-
-    private TableDefinition<Bet>? table = null;
-
-    protected override async Task OnInitializedAsync()
+    private string header = "Bets";
+    private string title = "Hawks Nest Golf - Bets";
+    private TableDefinition<Bet> table = new TableDefinition<Bet>
     {
-        var apiResponse = await BetsDataService.GetAll();
-        if (apiResponse.Success)
-        {
-            table = new TableDefinition<Bet>(Columns, apiResponse.Data, RowActions, TableActions);
-        }
-    }
-
-    private IList<ColumnDefinition<Bet>> Columns => new List<ColumnDefinition<Bet>>
+        Columns = new List<ColumnDefinition<Bet>>
         {
             new ColumnDefinition<Bet> { Header = "Id", Value = x => x.Id},
             new ColumnDefinition<Bet> { Header = "Name", Value = x => x.Name},
             new ColumnDefinition<Bet> { Header = "Default Amount", Value = x => x.DefAmount}
-        };
-
-    private IList<RowAction<Bet>> RowActions => new List<RowAction<Bet>>
+        },
+        RowActions = new List<RowAction<Bet>>
         {
             new RowAction<Bet> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
             new RowAction<Bet> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
-        };
-
-    private IList<TableAction<Bet>> TableActions => new List<TableAction<Bet>>
+        },
+        TableActions = new List<TableAction<Bet>>
         {
             new TableAction<Bet> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
             new TableAction<Bet> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
             new TableAction<Bet> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
-        };
+        }
+    };
 
-    private void Details(Bet b)
+    private async Task<ApiResponse<IList<Bet>>> GetItems() => await BetsDataService.GetAll();
+
+    private static void Details(Bet b)
     {
         Console.WriteLine($"Bet Details: {b.Id}, {b.Name}, {b.DefAmount}");
     }
 
-    private void Edit(Bet b)
+    private static void Edit(Bet b)
     {
         Console.WriteLine($"Edit Bet: {b.Id}, {b.Name}, {b.DefAmount}");
     }
 
-    private void Add(IList<Bet> bets)
+    private static void Add(IList<Bet> bets)
     {
         Console.WriteLine("Add a new bet");
     }
 
-    private void Clear(IList<Bet> bets)
+    private static void Clear(IList<Bet> bets)
     {
         Console.WriteLine("Clear bets");
     }
 
-    private void Export(IList<Bet> bets)
+    private static void Export(IList<Bet> bets)
     {
         Console.WriteLine("Export bets");
     }

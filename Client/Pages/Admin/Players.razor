@@ -1,39 +1,59 @@
 ﻿@page "/admin/players"
-
 @inject IPlayersDataService PlayersDataService
 
-<PageTitle>Hawks Nest Golf - Players</PageTitle>
-<h3>Players</h3>
-
-@if (table is null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <ItemsTable table=@table />
-}
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
 
 @code {
-    private TableDefinition<Player>? table { get; set; } = null;
-
-
-    protected override async Task OnInitializedAsync()
+    private string header = "Players";
+    private string title = "Hawks Nest Golf - Players";
+    private TableDefinition<Player> table = new TableDefinition<Player>
     {
-        var apiResponse = await PlayersDataService.GetAll();
-        if (apiResponse.Success)
-        {
-            table = new TableDefinition<Player>(Columns, apiResponse.Data);
-        }
-    }
-
-    private IList<ColumnDefinition<Player>> Columns => new List<ColumnDefinition<Player>>
+        Columns = new List<ColumnDefinition<Player>>
         {
         new ColumnDefinition<Player> { Header = "Id", Value = x => x.Id},
         new ColumnDefinition<Player> { Header = "Name", Value = x => x.Name ?? ""},
         new ColumnDefinition<Player> { Header = "Email", Value = x => x.Email ?? ""},
         new ColumnDefinition<Player> { Header = "Email2", Value = x => x.Email2 ?? ""}
-        };
+        },
+        RowActions = new List<RowAction<Player>>
+        {
+            new RowAction<Player> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<Player> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<Player>>
+        {
+            new TableAction<Player> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<Player> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<Player> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
+
+    private async Task<ApiResponse<IList<Player>>> GetItems() => await PlayersDataService.GetAll();
+
+    private static void Details(Player p)
+    {
+        Console.WriteLine($"Player Details: {p.Id}, {p.Name}, {p.Email}");
+    }
+
+    private static void Edit(Player p)
+    {
+        Console.WriteLine($"Player Details: {p.Id}, {p.Name}, {p.Email}");
+    }
+
+    private static void Add(IList<Player> players)
+    {
+        Console.WriteLine("Add a new player");
+    }
+
+    private static void Clear(IList<Player> players)
+    {
+        Console.WriteLine("Clear players");
+    }
+
+    private static void Export(IList<Player> players)
+    {
+        Console.WriteLine("Export players");
+    }
 
 
 

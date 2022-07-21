@@ -1,38 +1,56 @@
 ﻿@page "/admin/tournaments"
-
 @inject ITournamentsDataService TournamentsDataService
 
-<PageTitle>Hawks Nest Golf - Tournaments</PageTitle>
-
-<h3>Tournaments</h3>
-
-@if (table is null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <ItemsTable table=@table />
-}
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
 
 @code {
-    private TableDefinition<Tournament>? table { get; set; } = null;
-
-
-    protected override async Task OnInitializedAsync()
+    private string header = "Tournaments";
+    private string title = "Hawks Nest Golf - Tournaments";
+    private TableDefinition<Tournament> table = new TableDefinition<Tournament>
     {
-        var apiResponse = await TournamentsDataService.GetAll();
-        if (apiResponse.Success)
-        {
-            table = new TableDefinition<Tournament>(Columns, apiResponse.Data);
-        }
-    }
-
-    private IList<ColumnDefinition<Tournament>> Columns => new List<ColumnDefinition<Tournament>>
+        Columns = new List<ColumnDefinition<Tournament>>
         {
             new ColumnDefinition<Tournament> { Header = "Id", Value = x => x.Id},
             new ColumnDefinition<Tournament> { Header = "Name", Value = x => x.Name}
-        };
+        },
+        RowActions = new List<RowAction<Tournament>>
+        {
+            new RowAction<Tournament> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<Tournament> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<Tournament>>
+        {
+            new TableAction<Tournament> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<Tournament> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<Tournament> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
 
+    private async Task<ApiResponse<IList<Tournament>>> GetItems() => await TournamentsDataService.GetAll();
+
+    private static void Details(Tournament t)
+    {
+        Console.WriteLine($"Tournament Details: {t.Id}, {t.Name}");
+    }
+
+    private static void Edit(Tournament t)
+    {
+        Console.WriteLine($"Tournament Details: {t.Id}, {t.Name}");
+    }
+
+    private static void Add(IList<Tournament> tournaments)
+    {
+        Console.WriteLine("Add a new tournament");
+    }
+
+    private static void Clear(IList<Tournament> tournaments)
+    {
+        Console.WriteLine("Clear tournaments");
+    }
+
+    private static void Export(IList<Tournament> tournaments)
+    {
+        Console.WriteLine("Export tournaments");
+    }
 
 }

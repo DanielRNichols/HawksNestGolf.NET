@@ -10,7 +10,7 @@
                 @if(action?.Action is not null)
                 {
                     <a @onclick=@(_ => action.Action(table.Items))>
-                        <span class="oi oi-@action.Icon" aria-hidden="true"></span>
+                        <span class="@action.Icon" aria-hidden="true"></span>
                     </a>
                 }
             }
