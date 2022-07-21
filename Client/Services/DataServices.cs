@@ -19,4 +19,10 @@ namespace HawksNestGolf.NET.Client.Services
 
     }
 
+    public class GolfersDataService : BaseDataService<Golfer>, IGolfersDataService
+    {
+        public GolfersDataService(HttpClient httpClient) : base(httpClient, "golfers") { }
+
+    }
+
 }

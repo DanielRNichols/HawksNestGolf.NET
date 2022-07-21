@@ -1,0 +1,62 @@
+﻿@page "/admin/golfers"
+@inject IGolfersDataService GolfersDataService
+
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
+
+@code {
+    private string header = "Golfers";
+    private string title = "Hawks Nest Golf - Golfers";
+    private TableDefinition<Golfer> table = new TableDefinition<Golfer>
+    {
+        Columns = new List<ColumnDefinition<Golfer>>
+        {
+            new ColumnDefinition<Golfer> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<Golfer> { Header = "Name", Value = x => x.Name ?? ""},
+            new ColumnDefinition<Golfer> { Header = "Selection Name", Value = x => x.SelectionName ?? ""},
+            new ColumnDefinition<Golfer> { Header = "Country", Value = x => x.Country ?? ""},
+            new ColumnDefinition<Golfer> { Header = "World Ranking", Value = x => x.WorldRanking},
+            new ColumnDefinition<Golfer> { Header = "FedEx Ranking", Value = x => x.FedExRanking}
+        },
+        RowActions = new List<RowAction<Golfer>>
+        {
+            new RowAction<Golfer> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<Golfer> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<Golfer>>
+        {
+            new TableAction<Golfer> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<Golfer> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<Golfer> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
+
+    private async Task<ApiResponse<IList<Golfer>>> GetItems() => await GolfersDataService.GetAll();
+
+    private static void Details(Golfer g)
+    {
+        Console.WriteLine($"Golfer Details: {g.Id}, {g.Name}");
+    }
+
+    private static void Edit(Golfer g)
+    {
+        Console.WriteLine($"Golfer Details: {g.Id}, {g.Name}");
+    }
+
+    private static void Add(IList<Golfer> golfers)
+    {
+        Console.WriteLine("Add a new golfer");
+    }
+
+    private static void Clear(IList<Golfer> golfers)
+    {
+        Console.WriteLine("Clear golfers");
+    }
+
+    private static void Export(IList<Golfer> golfers)
+    {
+        Console.WriteLine("Export golfers");
+    }
+
+
+
+}

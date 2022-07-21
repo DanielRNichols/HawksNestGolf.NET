@@ -20,6 +20,7 @@ namespace HawksNestGolf.NET.Client
             builder.Services.AddScoped<IBetsDataService, BetsDataService>();
             builder.Services.AddScoped<IPlayersDataService, PlayersDataService>();
             builder.Services.AddScoped<ITournamentsDataService, TournamentsDataService>();
+            builder.Services.AddScoped<IGolfersDataService, GolfersDataService>();
 
             await builder.Build().RunAsync();
         }
