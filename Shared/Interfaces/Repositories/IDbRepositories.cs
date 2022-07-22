@@ -13,5 +13,6 @@ namespace HawksNestGolf.NET.Shared.Interfaces.Repositories
     public interface IGolfersRepository : IBaseDbResourceRepository<Golfer> { }
     public interface IMessagesRepository : IBaseDbResourceRepository<Message> { }
     public interface IEventsRepository : IBaseDbResourceRepository<Event> { }
+    public interface IEntriesRepository : IBaseDbResourceRepository<Entry> { }
 
 }

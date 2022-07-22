@@ -36,4 +36,9 @@ namespace HawksNestGolf.NET.Client.Services
         public EventsDataService(HttpClient httpClient) : base(httpClient, "events") { }
 
     }
+    public class EntriesDataService : BaseDataService<Entry>, IEntriesDataService
+    {
+        public EntriesDataService(HttpClient httpClient) : base(httpClient, "entries") { }
+
+    }
 }

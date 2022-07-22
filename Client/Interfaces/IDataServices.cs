@@ -13,4 +13,5 @@ namespace HawksNestGolf.NET.Client.Interfaces
     public interface IGolfersDataService : IBaseDataService<Golfer> { }
     public interface IMessagesDataService : IBaseDataService<Message> { }
     public interface IEventsDataService : IBaseDataService<Event> { }
+    public interface IEntriesDataService : IBaseDataService<Entry> { }
 }

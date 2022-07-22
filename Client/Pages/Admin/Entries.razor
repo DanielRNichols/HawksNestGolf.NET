@@ -1,0 +1,61 @@
+﻿@page "/admin/entries"
+@inject IEntriesDataService EntriesDataService
+
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
+
+@code {
+    private string header = "Entries";
+    private string title = "Hawks Nest Golf - Entries";
+    private TableDefinition<Entry> table = new TableDefinition<Entry>
+    {
+        Columns = new List<ColumnDefinition<Entry>>
+        {
+            new ColumnDefinition<Entry> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<Entry> { Header = "Year", Value = x => x.Event.Year},
+            new ColumnDefinition<Entry> { Header = "Tournament", Value = x => x.Event.Tournament.Name ?? ""},
+            new ColumnDefinition<Entry> { Header = "Player", Value = x => x.Player.Name ?? ""},
+            new ColumnDefinition<Entry> { Header = "Pick #", Value = x => x.PickNumber},
+        },
+        RowActions = new List<RowAction<Entry>>
+        {
+            new RowAction<Entry> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<Entry> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<Entry>>
+        {
+            new TableAction<Entry> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<Entry> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<Entry> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
+
+    private async Task<ApiResponse<IList<Entry>>> GetItems() => await EntriesDataService.GetAll();
+
+    private static void Details(Entry e)
+    {
+        Console.WriteLine($"Entry Details: {e.Id}, {e.Event.Tournament.Name}, {e.Player.Name}, {e.PickNumber}");
+    }
+
+    private static void Edit(Entry e)
+    {
+        Console.WriteLine($"Entry Details: {e.Id}, {e.Event.Tournament.Name}, {e.Player.Name}, {e.PickNumber}");
+    }
+
+    private static void Add(IList<Entry> entries)
+    {
+        Console.WriteLine("Add a new entry");
+    }
+
+    private static void Clear(IList<Entry> entries)
+    {
+        Console.WriteLine("Clear entries");
+    }
+
+    private static void Export(IList<Entry> entries)
+    {
+        Console.WriteLine("Export entries");
+    }
+
+
+
+}
