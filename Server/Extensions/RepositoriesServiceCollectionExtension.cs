@@ -14,6 +14,7 @@ namespace HawksNestGolf.NET.Server.Extensions
             services.AddScoped<IMessagesRepository, MessagesRepository>();
             services.AddScoped<IEventsRepository, EventsRepository>();
             services.AddScoped<IEntriesRepository, EntriesRepository>();
+            services.AddScoped<IResultsRepository, ResultsRepository>();
 
             return services;
         }

@@ -16,6 +16,7 @@ namespace HawksNestGolf.NET.Server.DbContexts
         public DbSet<Message> Messages { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Entry> Entries { get; set; }
+        public DbSet<Result> Results { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +34,11 @@ namespace HawksNestGolf.NET.Server.DbContexts
             modelBuilder.Entity<Entry>()
                 .HasOne(e => e.Player);
 
+            modelBuilder.Entity<Result>()
+                .HasOne(r => r.Bet);
+
+            modelBuilder.Entity<Result>()
+                .HasOne(r => r.Entry);
         }
 
     }

@@ -16,7 +16,7 @@ namespace HawksNestGolf.NET.Server.Repositories
 
         public override async Task<IList<Event>> GetAll()
         {
-            return await _dbContext.Events.Include(e => e.Tournament).OrderBy(e => e.EventNo).ToListAsync();
+            return await _dbContext.Events.Include(e => e.Tournament).OrderByDescending(e => e.EventNo).ToListAsync();
         }
 
         public override async Task<Event?> GetById(int id)

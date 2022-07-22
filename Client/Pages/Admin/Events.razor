@@ -12,8 +12,8 @@
         {
             new ColumnDefinition<Event> { Header = "Id", Value = x => x.Id},
             new ColumnDefinition<Event> { Header = "Event #", Value = x => x.EventNo},
-            new ColumnDefinition<Event> { Header = "Tournament", Value = x => x.Tournament?.Name ?? ""},
             new ColumnDefinition<Event> { Header = "Year", Value = x => x.Year},
+            new ColumnDefinition<Event> { Header = "Tournament", Value = x => x.Tournament?.Name ?? ""},
             new ColumnDefinition<Event> { Header = "Entry Fee", Value = x => x.EntryFee},
             new ColumnDefinition<Event> { Header = "Status", Value = x => x.Status},
         },

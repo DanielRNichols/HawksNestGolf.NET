@@ -25,7 +25,10 @@ namespace HawksNestGolf.NET.Server.Repositories
 
         public override async Task<Entry?> GetById(int id)
         {
-            return await _dbContext.Entries.Include(e => e.Event).Include(e => e.Player).FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Entries.Include(e => e.Event)
+                                           .Include(e => e.Player)
+                                           .Include(e => e.Event.Tournament)
+                                           .FirstOrDefaultAsync(x => x.Id == id);
         }
 
     }

@@ -1,0 +1,62 @@
+﻿@page "/admin/results"
+@inject IResultsDataService ResultsDataService
+
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
+
+@code {
+    private string header = "Results";
+    private string title = "Hawks Nest Golf - Results";
+    private TableDefinition<Result> table = new TableDefinition<Result>
+    {
+        Columns = new List<ColumnDefinition<Result>>
+        {
+            new ColumnDefinition<Result> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<Result> { Header = "Year", Value = x => x.Entry.Event.Year},
+            new ColumnDefinition<Result> { Header = "Tournament", Value = x => x.Entry.Event.Tournament?.Name},
+            new ColumnDefinition<Result> { Header = "Bet", Value = x => x.Bet.Name},
+            new ColumnDefinition<Result> { Header = "Player", Value = x => x.Entry.Player.Name},
+            new ColumnDefinition<Result> { Header = "Amount", Value = x => x.Amount},
+        },
+        RowActions = new List<RowAction<Result>>
+        {
+            new RowAction<Result> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<Result> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<Result>>
+        {
+            new TableAction<Result> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<Result> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<Result> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
+
+    private async Task<ApiResponse<IList<Result>>> GetItems() => await ResultsDataService.GetAll();
+
+    private static void Details(Result r)
+    {
+        Console.WriteLine($"Result Details: {r.Id}, {r.BetId}, {r.EntryId}");
+    }
+
+    private static void Edit(Result r)
+    {
+        Console.WriteLine($"Result Details: {r.Id}, {r.BetId}, {r.EntryId}");
+    }
+
+    private static void Add(IList<Result> results)
+    {
+        Console.WriteLine("Add a new result");
+    }
+
+    private static void Clear(IList<Result> results)
+    {
+        Console.WriteLine("Clear results");
+    }
+
+    private static void Export(IList<Result> results)
+    {
+        Console.WriteLine("Export results");
+    }
+
+
+
+}
