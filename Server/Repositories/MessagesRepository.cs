@@ -14,7 +14,7 @@ namespace HawksNestGolf.NET.Server.Repositories
             _dbContext = dbContext;
         }
 
-        public override async Task<IList<Message>> GetAll()
+        public override async Task<IList<Message>> GetAll(QueryOptions? queryOptions = null)
         {
             return await _dbContext.Messages.Include(m => m.Player).ToListAsync();
         }

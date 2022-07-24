@@ -19,10 +19,20 @@ namespace HawksNestGolf.NET.Server.Controllers.Api
         }
 
         [HttpGet]
-        public virtual async Task<ActionResult<ApiResponse<IList<T>>>> GetAll()
+        public virtual async Task<ActionResult<ApiResponse<IList<T>>>> GetAll(bool includeRelated = true, string? orderBy = "", int skip = 0, int take = 0)
         {
             _logger.LogInformation("GetAll {type}", nameof(T));
-            var items = await _repo.GetAll();
+
+            var queryOptions = new QueryOptions
+            {
+                IncludeRelated = includeRelated,
+                OrderBy = OrderByOption.FromQueryStringParameter(orderBy),
+                Skip = skip,
+                Take = take
+            };
+
+
+            var items = await _repo.GetAll(queryOptions);
             var response = new ApiResponse<IList<T>> { Data = items };
 
             return Ok(response);

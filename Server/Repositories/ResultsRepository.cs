@@ -14,7 +14,7 @@ namespace HawksNestGolf.NET.Server.Repositories
             _dbContext = dbContext;
         }
 
-        public override async Task<IList<Result>> GetAll()
+        public override async Task<IList<Result>> GetAll(QueryOptions? queryOptions = null)
         {
             return await _dbContext.Results.Include(r => r.Bet)
                                            .Include(r => r.Entry)
