@@ -31,7 +31,6 @@ namespace HawksNestGolf.NET.Server.Controllers.Api
                 Take = take
             };
 
-
             var items = await _repo.GetAll(queryOptions);
             var response = new ApiResponse<IList<T>> { Data = items };
 
@@ -39,10 +38,10 @@ namespace HawksNestGolf.NET.Server.Controllers.Api
         }
 
         [HttpGet("{id}")]
-        public virtual async Task<ActionResult<T>> GetById(int id)
+        public virtual async Task<ActionResult<T>> GetById(int id, bool includeRelated = true)
         {
             _logger.LogInformation("GetById {type}", nameof(T));
-            var item = await _repo.GetById(id);
+            var item = await _repo.GetById(id, includeRelated);
             if (item == null)
                 return NotFound();
 

@@ -7,22 +7,18 @@ namespace HawksNestGolf.NET.Server.Repositories
 {
     public class MessagesRepository : BaseDbResourceRepository<Message>, IMessagesRepository
     {
-        private readonly HawksNestGolfDbContext _dbContext;
-
         public MessagesRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.Messages) 
         {
-            _dbContext = dbContext;
         }
 
-        public override async Task<IList<Message>> GetAll(QueryOptions? queryOptions = null)
-        {
-            return await _dbContext.Messages.Include(m => m.Player).ToListAsync();
-        }
+        public override IQueryable<Message> IncludeRelated(IQueryable<Message> query) => query.Include(x => x.Player);
 
-        public override async Task<Message?> GetById(int id)
-        {
-            return await _dbContext.Messages.Include(m => m.Player).FirstOrDefaultAsync(x => x.Id == id);
-        }
+        public override IList<OrderByProperties<Message>> GetSortOrderDefintion() => new List<OrderByProperties<Message>>
+            {
+                new OrderByProperties<Message> { Name = "content", OrderByFunc = x => x.Content ?? "" },
+                new OrderByProperties<Message> { Name = "player", OrderByFunc = x => x.Player == null ? "" : x.Player.Name ?? "" },
+                new OrderByProperties<Message> { Name = "id", OrderByFunc = x => x.Id }
+            };
 
     }
 }

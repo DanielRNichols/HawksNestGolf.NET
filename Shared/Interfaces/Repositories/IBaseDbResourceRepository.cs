@@ -10,7 +10,7 @@ namespace HawksNestGolf.NET.Shared.Interfaces.Repositories
     public interface IBaseDbResourceRepository<T> where T : class,IDbResource
     {
         Task<IList<T>> GetAll(QueryOptions? queryOptions = null);
-        Task<T?> GetById(int id);
+        Task<T?> GetById(int id, bool includeRelated = true);
         Task<T?> Add(T item);
         Task<T?> Update(T item);
         Task<bool> Delete(int id);

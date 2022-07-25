@@ -25,7 +25,7 @@ namespace HawksNestGolf.NET.Server.Repositories
                                            .ToListAsync();
         }
 
-        public override async Task<Result?> GetById(int id)
+        public override async Task<Result?> GetById(int id, bool includeRelated = true)
         {
             return await _dbContext.Results.Include(r => r.Bet)
                                            .Include(r => r.Entry)

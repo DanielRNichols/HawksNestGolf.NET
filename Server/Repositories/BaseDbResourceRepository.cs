@@ -42,15 +42,19 @@ namespace HawksNestGolf.NET.Server.Repositories
         }
 
         public virtual IQueryable<T> IncludeRelated(IQueryable<T> query) => query;
+        public virtual IList<OrderByProperties<T>> GetSortOrderDefintion() => new List<OrderByProperties<T>>();
+        public virtual IOrderedQueryable<T> DefaultOrderBy(IQueryable<T> query) => query.OrderBy(x => x.Id);
+
 
         public virtual IQueryable<T> SetOrder(IQueryable<T> query, OrderByOption[]? orderBy)
         {
             if (orderBy is not null && orderBy.Length > 0)
             {
-                var orderedQuery = OrderBy(query, orderBy[0]);
+                var sortOrderDefintion = GetSortOrderDefintion();
+                var orderedQuery = OrderBy(query, sortOrderDefintion, orderBy[0]);
                 for (int i = 1; i < orderBy.Length; i++)
                 {
-                    orderedQuery = ThenBy(orderedQuery, orderBy[i]);
+                    orderedQuery = ThenBy(orderedQuery, sortOrderDefintion, orderBy[i]);
                 }
                 query = orderedQuery;
 
@@ -61,15 +65,41 @@ namespace HawksNestGolf.NET.Server.Repositories
             return DefaultOrderBy(query);
         }
 
-        public virtual IOrderedQueryable<T> OrderBy(IQueryable<T> query, OrderByOption option) => DefaultOrderBy(query);
-
-        public virtual IOrderedQueryable<T> ThenBy(IOrderedQueryable<T> orderedQuery, OrderByOption option) => orderedQuery;
-
-        public virtual IOrderedQueryable<T> DefaultOrderBy(IQueryable<T> query) => query.OrderBy(x => x.Id);
-
-        public virtual async Task<T?> GetById(int id)
+        public virtual IOrderedQueryable<T> OrderBy(IQueryable<T> query, IList<OrderByProperties<T>> sortOrderDefintion, OrderByOption orderByOption)
         {
-            return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+            
+            var prop = sortOrderDefintion.FirstOrDefault(n => n.Name == orderByOption.Name);
+
+            if (prop is null || prop.OrderByFunc == null)
+                return DefaultOrderBy(query);
+
+            if (orderByOption.Direction == OrderByDirection.Ascending)
+                return query.OrderBy(prop.OrderByFunc);
+
+            return query.OrderByDescending(prop.OrderByFunc);
+        }
+
+        public virtual IOrderedQueryable<T> ThenBy(IOrderedQueryable<T> query, IList<OrderByProperties<T>> sortOrderDefintion, OrderByOption orderByOption)
+        {
+            var prop = sortOrderDefintion.FirstOrDefault(n => n.Name == orderByOption.Name);
+
+            if (prop is null || prop.OrderByFunc == null)
+                return query;
+
+            if (orderByOption.Direction == OrderByDirection.Ascending)
+                return query.ThenBy(prop.OrderByFunc);
+
+            return query.ThenByDescending(prop.OrderByFunc);
+
+        }
+
+        public virtual async Task<T?> GetById(int id, bool includeRelated = true)
+        {
+            var query = _dbSet.Select(t => t);
+            if (includeRelated)
+                query = IncludeRelated(query);
+
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public virtual async Task<T?> Add(T item)
