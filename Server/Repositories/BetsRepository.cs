@@ -8,11 +8,11 @@ namespace HawksNestGolf.NET.Server.Repositories
     {
         public BetsRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.Bets) {}
 
-        public override IList<OrderByProperties<Bet>> GetSortOrderDefintion() => new List<OrderByProperties<Bet>>
+        public override IList<SortProperty<Bet>> SortOrderDefintion() => new List<SortProperty<Bet>>
             {
-                new OrderByProperties<Bet> { Name = "name", OrderByFunc = x => x.Name },
-                new OrderByProperties<Bet> { Name = "defamount", OrderByFunc = x => x.DefAmount },
-                new OrderByProperties<Bet> { Name = "id", OrderByFunc = x => x.Id }
+                new SortProperty<Bet> { Name = "name", OrderByFunc = x => x.Name },
+                new SortProperty<Bet> { Name = "defamount", OrderByFunc = x => x.DefAmount },
+                new SortProperty<Bet> { Name = "id", OrderByFunc = x => x.Id }
             };
 
     }

@@ -8,12 +8,13 @@ namespace HawksNestGolf.NET.Server.Repositories
     {
         public TournamentsRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.Tournaments) {}
 
-        public override IOrderedQueryable<Tournament> DefaultOrderBy(IQueryable<Tournament> query) => query.OrderBy(x => x.Ordinal);
-        public override IList<OrderByProperties<Tournament>> GetSortOrderDefintion() => new List<OrderByProperties<Tournament>>
+        public override IOrderedQueryable<Tournament> DefaultSort(IQueryable<Tournament> query) => query.OrderBy(x => x.Ordinal);
+
+        public override IList<SortProperty<Tournament>> SortOrderDefintion() => new List<SortProperty<Tournament>>
             {
-                new OrderByProperties<Tournament> { Name = "name", OrderByFunc = x => x.Name },
-                new OrderByProperties<Tournament> { Name = "ordinal", OrderByFunc = x => x.Ordinal },
-                new OrderByProperties<Tournament> { Name = "id", OrderByFunc = x => x.Id }
+                new SortProperty<Tournament> { Name = "name", OrderByFunc = x => x.Name },
+                new SortProperty<Tournament> { Name = "ordinal", OrderByFunc = x => x.Ordinal },
+                new SortProperty<Tournament> { Name = "id", OrderByFunc = x => x.Id }
             };
 
     }

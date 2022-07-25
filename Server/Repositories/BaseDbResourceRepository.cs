@@ -42,19 +42,19 @@ namespace HawksNestGolf.NET.Server.Repositories
         }
 
         public virtual IQueryable<T> IncludeRelated(IQueryable<T> query) => query;
-        public virtual IList<OrderByProperties<T>> GetSortOrderDefintion() => new List<OrderByProperties<T>>();
-        public virtual IOrderedQueryable<T> DefaultOrderBy(IQueryable<T> query) => query.OrderBy(x => x.Id);
+        public virtual IList<SortProperty<T>> SortOrderDefintion() => new List<SortProperty<T>>();
+        public virtual IOrderedQueryable<T> DefaultSort(IQueryable<T> query) => query.OrderBy(x => x.Id);
 
 
-        public virtual IQueryable<T> SetOrder(IQueryable<T> query, OrderByOption[]? orderBy)
+        public virtual IQueryable<T> SetOrder(IQueryable<T> query, SortOption[]? sortOptions)
         {
-            if (orderBy is not null && orderBy.Length > 0)
+            if (sortOptions is not null && sortOptions.Length > 0)
             {
-                var sortOrderDefintion = GetSortOrderDefintion();
-                var orderedQuery = OrderBy(query, sortOrderDefintion, orderBy[0]);
-                for (int i = 1; i < orderBy.Length; i++)
+                var sortOrderDefintion = SortOrderDefintion();
+                var orderedQuery = OrderBy(query, sortOrderDefintion, sortOptions[0]);
+                for (int i = 1; i < sortOptions.Length; i++)
                 {
-                    orderedQuery = ThenBy(orderedQuery, sortOrderDefintion, orderBy[i]);
+                    orderedQuery = ThenBy(orderedQuery, sortOrderDefintion, sortOptions[i]);
                 }
                 query = orderedQuery;
 
@@ -62,31 +62,31 @@ namespace HawksNestGolf.NET.Server.Repositories
 
             }
             
-            return DefaultOrderBy(query);
+            return DefaultSort(query);
         }
 
-        public virtual IOrderedQueryable<T> OrderBy(IQueryable<T> query, IList<OrderByProperties<T>> sortOrderDefintion, OrderByOption orderByOption)
+        public virtual IOrderedQueryable<T> OrderBy(IQueryable<T> query, IList<SortProperty<T>> sortOrderDefintion, SortOption orderByOption)
         {
             
             var prop = sortOrderDefintion.FirstOrDefault(n => n.Name == orderByOption.Name);
 
             if (prop is null || prop.OrderByFunc == null)
-                return DefaultOrderBy(query);
+                return DefaultSort(query);
 
-            if (orderByOption.Direction == OrderByDirection.Ascending)
+            if (orderByOption.Direction == SortDirection.Ascending)
                 return query.OrderBy(prop.OrderByFunc);
 
             return query.OrderByDescending(prop.OrderByFunc);
         }
 
-        public virtual IOrderedQueryable<T> ThenBy(IOrderedQueryable<T> query, IList<OrderByProperties<T>> sortOrderDefintion, OrderByOption orderByOption)
+        public virtual IOrderedQueryable<T> ThenBy(IOrderedQueryable<T> query, IList<SortProperty<T>> sortOrderDefintion, SortOption orderByOption)
         {
             var prop = sortOrderDefintion.FirstOrDefault(n => n.Name == orderByOption.Name);
 
             if (prop is null || prop.OrderByFunc == null)
                 return query;
 
-            if (orderByOption.Direction == OrderByDirection.Ascending)
+            if (orderByOption.Direction == SortDirection.Ascending)
                 return query.ThenBy(prop.OrderByFunc);
 
             return query.ThenByDescending(prop.OrderByFunc);

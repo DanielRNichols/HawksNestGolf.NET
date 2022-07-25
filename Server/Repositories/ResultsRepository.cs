@@ -7,33 +7,31 @@ namespace HawksNestGolf.NET.Server.Repositories
 {
     public class ResultsRepository : BaseDbResourceRepository<Result>, IResultsRepository
     {
-        private readonly HawksNestGolfDbContext _dbContext;
-
         public ResultsRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.Results) 
         {
-            _dbContext = dbContext;
         }
 
-        public override async Task<IList<Result>> GetAll(QueryOptions? queryOptions = null)
-        {
-            return await _dbContext.Results.Include(r => r.Bet)
-                                           .Include(r => r.Entry)
-                                           .Include(r => r.Entry.Event)
-                                           .Include(r => r.Entry.Player)
-                                           .Include(r => r.Entry.Event.Tournament)
-                                           .OrderByDescending(r => r.Entry.Event.EventNo).ThenBy(r => r.Bet.Id)
-                                           .ToListAsync();
-        }
+        public override IQueryable<Result> IncludeRelated(IQueryable<Result> query) =>
+            query.Include(r => r.Bet)
+                 .Include(r => r.Entry)
+                 .Include(r => r.Entry.Event)
+                 .Include(r => r.Entry.Player)
+                 .Include(r => r.Entry.Event.Tournament);
 
-        public override async Task<Result?> GetById(int id, bool includeRelated = true)
-        {
-            return await _dbContext.Results.Include(r => r.Bet)
-                                           .Include(r => r.Entry)
-                                           .Include(r => r.Entry.Event)
-                                           .Include(r => r.Entry.Player)
-                                           .Include(r => r.Entry.Event.Tournament)
-                                           .FirstOrDefaultAsync(x => x.Id == id);
-        }
+        public override IOrderedQueryable<Result> DefaultSort(IQueryable<Result> query) =>
+            query.OrderByDescending(r => r.Entry.Event.EventNo).ThenBy(r => r.Bet.Id);
+
+        public override IList<SortProperty<Result>> SortOrderDefintion() => new List<SortProperty<Result>>
+            {
+                new SortProperty<Result> { Name = "player", OrderByFunc = x => x.Entry.Player.Name ?? "" },
+                new SortProperty<Result> { Name = "pick", OrderByFunc = x => x.Entry.PickNumber },
+                new SortProperty<Result> { Name = "eventno", OrderByFunc = x => x.Entry.Event.EventNo },
+                new SortProperty<Result> { Name = "year", OrderByFunc = x => x.Entry.Event.Year },
+                new SortProperty<Result> { Name = "tournament", OrderByFunc = x => x.Entry.Event.Tournament.Name },
+                new SortProperty<Result> { Name = "bet", OrderByFunc = x => x.Bet.Name },
+                new SortProperty<Result> { Name = "betid", OrderByFunc = x => x.Bet.Id },
+                new SortProperty<Result> { Name = "id", OrderByFunc = x => x.Id },
+            };
 
     }
 }

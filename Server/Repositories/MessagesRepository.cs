@@ -13,11 +13,11 @@ namespace HawksNestGolf.NET.Server.Repositories
 
         public override IQueryable<Message> IncludeRelated(IQueryable<Message> query) => query.Include(x => x.Player);
 
-        public override IList<OrderByProperties<Message>> GetSortOrderDefintion() => new List<OrderByProperties<Message>>
+        public override IList<SortProperty<Message>> SortOrderDefintion() => new List<SortProperty<Message>>
             {
-                new OrderByProperties<Message> { Name = "content", OrderByFunc = x => x.Content ?? "" },
-                new OrderByProperties<Message> { Name = "player", OrderByFunc = x => x.Player == null ? "" : x.Player.Name ?? "" },
-                new OrderByProperties<Message> { Name = "id", OrderByFunc = x => x.Id }
+                new SortProperty<Message> { Name = "content", OrderByFunc = x => x.Content ?? "" },
+                new SortProperty<Message> { Name = "player", OrderByFunc = x => x.Player == null ? "" : x.Player.Name ?? "" },
+                new SortProperty<Message> { Name = "id", OrderByFunc = x => x.Id }
             };
 
     }

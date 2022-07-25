@@ -1,12 +1,12 @@
 ﻿namespace HawksNestGolf.NET.Shared.Models
 {
-    public enum OrderByDirection
+    public enum SortDirection
     {
         Ascending,
         Descending
     }
 
-    public class OrderByOption
+    public class SortOption
     {
         private string _name = string.Empty;
         public string Name
@@ -18,27 +18,27 @@
             }
         }
 
-        public OrderByDirection Direction { get; set; } = OrderByDirection.Ascending;
+        public SortDirection Direction { get; set; } = SortDirection.Ascending;
 
-        public static OrderByOption[] FromQueryStringParameter(string? queryStringParam)
+        public static SortOption[] FromQueryStringParameter(string? queryStringParam)
         {
-            IList<OrderByOption> orderBy = new List<OrderByOption>();
+            IList<SortOption> sortOptions = new List<SortOption>();
             if (queryStringParam is null)
-                return orderBy.ToArray();
+                return sortOptions.ToArray();
 
             // parse "name1,desc;name2"
             var options = queryStringParam.Split(';');
             foreach (var option in options)
             {
-                var orderByOption = ParseOptionString(option);
-                if (orderByOption is not null)
-                    orderBy.Add(orderByOption);
+                var sortOption = ParseSortOptionsString(option);
+                if (sortOption is not null)
+                    sortOptions.Add(sortOption);
             }
 
-            return orderBy.ToArray();
+            return sortOptions.ToArray();
         }
 
-        private static OrderByOption? ParseOptionString(string optionStr)
+        private static SortOption? ParseSortOptionsString(string optionStr)
         {
             var parts = optionStr.Split(',');
             if (parts.Length == 0)
@@ -46,10 +46,10 @@
 
             var name = parts[0];
             var dir = parts.Length > 1 ? parts[1].ToLower() : "";
-            return new OrderByOption
+            return new SortOption
             {
                 Name = name,
-                Direction = dir == "desc" ? OrderByDirection.Descending : OrderByDirection.Ascending
+                Direction = dir == "desc" ? SortDirection.Descending : SortDirection.Ascending
             };
         }
     }
@@ -57,7 +57,7 @@
     public class QueryOptions
     {
         public bool IncludeRelated { get; set; }
-        public OrderByOption[]? OrderBy { get; set; }
+        public SortOption[]? OrderBy { get; set; }
         public int Take { get; set; }
         public int Skip { get; set; }
     }

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace HawksNestGolf.NET.Server.Repositories
 {
-    public class OrderByProperties<T>
+    public class SortProperty<T>
     {
         public string Name { get; set; } = string.Empty;
         public Expression<Func<T, object>>? OrderByFunc { get; set; } 
@@ -18,17 +18,17 @@ namespace HawksNestGolf.NET.Server.Repositories
         {
         }
 
-
         public override IQueryable<Event> IncludeRelated(IQueryable<Event> query) => query.Include(x => x.Tournament);
-        public override IOrderedQueryable<Event> DefaultOrderBy(IQueryable<Event> query) => query.OrderBy(x => x.EventNo);
 
-        public override IList<OrderByProperties<Event>> GetSortOrderDefintion() => new List<OrderByProperties<Event>>
+        public override IOrderedQueryable<Event> DefaultSort(IQueryable<Event> query) => query.OrderBy(x => x.EventNo);
+
+        public override IList<SortProperty<Event>> SortOrderDefintion() => new List<SortProperty<Event>>
             {
-                new OrderByProperties<Event> { Name = "eventno", OrderByFunc = x => x.EventNo },
-                new OrderByProperties<Event> { Name = "year", OrderByFunc = x => x.Year },
-                new OrderByProperties<Event> { Name = "tournament", OrderByFunc = x => x.Tournament.Name },
-                new OrderByProperties<Event> { Name = "status", OrderByFunc = x => x.Status },
-                new OrderByProperties<Event> { Name = "id", OrderByFunc = x => x.Id }
+                new SortProperty<Event> { Name = "eventno", OrderByFunc = x => x.EventNo },
+                new SortProperty<Event> { Name = "year", OrderByFunc = x => x.Year },
+                new SortProperty<Event> { Name = "tournament", OrderByFunc = x => x.Tournament.Name },
+                new SortProperty<Event> { Name = "status", OrderByFunc = x => x.Status },
+                new SortProperty<Event> { Name = "id", OrderByFunc = x => x.Id }
             };
     }
 }
