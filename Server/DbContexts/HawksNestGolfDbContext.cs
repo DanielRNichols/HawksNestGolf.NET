@@ -9,14 +9,14 @@ namespace HawksNestGolf.NET.Server.DbContexts
         {
 
         }
-        public DbSet<Bet> Bets { get; set; }
-        public DbSet<Tournament> Tournaments { get; set; }
-        public DbSet<Player> Players { get; set; }
-        public DbSet<Golfer> Golfers { get; set; }
-        public DbSet<Message> Messages { get; set; }
-        public DbSet<Event> Events { get; set; }
-        public DbSet<Entry> Entries { get; set; }
-        public DbSet<Result> Results { get; set; }
+        public DbSet<Bet> Bets => Set<Bet>();
+        public DbSet<Tournament> Tournaments => Set<Tournament>();
+        public DbSet<Player> Players => Set<Player>();
+        public DbSet<Golfer> Golfers => Set<Golfer>();
+        public DbSet<Message> Messages => Set<Message>();
+        public DbSet<Event> Events => Set<Event>();
+        public DbSet<Entry> Entries => Set<Entry>();
+        public DbSet<Result> Results => Set<Result>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
