@@ -1,0 +1,63 @@
+﻿@page "/admin/fieldentries"
+@inject IFieldEntriesDataService FieldEntriesDataService
+
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
+
+@code {
+    private string header = "The Field";
+    private string title = "Hawks Nest Golf - The Field";
+    private TableDefinition<FieldEntry> table = new TableDefinition<FieldEntry>
+    {
+        Columns = new List<ColumnDefinition<FieldEntry>>
+        {
+            new ColumnDefinition<FieldEntry> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<FieldEntry> { Header = "Golfer", Value = x => x.Golfer?.Name},
+            new ColumnDefinition<FieldEntry> { Header = "Country", Value = x => x.Golfer?.Country},
+            new ColumnDefinition<FieldEntry> { Header = "World Ranking", Value = x => x.Golfer?.WorldRanking},
+            new ColumnDefinition<FieldEntry> { Header = "Fed Ex Ranking", Value = x => x.Golfer?.FedExRanking},
+            new ColumnDefinition<FieldEntry> { Header = "Odds", Value = x => x.Odds},
+            new ColumnDefinition<FieldEntry> { Header = "Odds Rank", Value = x => x.OddsRank},
+        },
+        RowActions = new List<RowAction<FieldEntry>>
+        {
+            new RowAction<FieldEntry> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<FieldEntry> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<FieldEntry>>
+        {
+            new TableAction<FieldEntry> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<FieldEntry> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<FieldEntry> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
+
+    private async Task<ApiResponse<IList<FieldEntry>>> GetItems() => await FieldEntriesDataService.GetAll();
+
+    private static void Details(FieldEntry x)
+    {
+        Console.WriteLine($"FieldEntry Details: {x.Id}, {x.Golfer?.Name}");
+    }
+
+    private static void Edit(FieldEntry x)
+    {
+        Console.WriteLine($"FieldEntry Details:  {x.Id}, {x.Golfer?.Name}");
+    }
+
+    private static void Add(IList<FieldEntry> entries)
+    {
+        Console.WriteLine("Add a new entry");
+    }
+
+    private static void Clear(IList<FieldEntry> entries)
+    {
+        Console.WriteLine("Clear entries");
+    }
+
+    private static void Export(IList<FieldEntry> entries)
+    {
+        Console.WriteLine("Export entries");
+    }
+
+
+
+}

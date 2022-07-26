@@ -16,5 +16,7 @@ namespace HawksNestGolf.NET.Shared.Interfaces.Repositories
     public interface IEntriesRepository : IBaseDbResourceRepository<Entry> { }
     public interface IResultsRepository : IBaseDbResourceRepository<Result> { }
     public interface IGolferResultsRepository : IBaseDbResourceRepository<GolferResult> { }
+    public interface IPicksRepository : IBaseDbResourceRepository<Pick> { }
+    public interface IFieldEntriesRepository : IBaseDbResourceRepository<FieldEntry> { }
 
 }

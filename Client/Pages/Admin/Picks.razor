@@ -1,0 +1,62 @@
+﻿@page "/admin/picks"
+@inject IPicksDataService PicksDataService
+
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
+
+@code {
+    private string header = "Picks";
+    private string title = "Hawks Nest Golf - Picks";
+    private TableDefinition<Pick> table = new TableDefinition<Pick>
+    {
+        Columns = new List<ColumnDefinition<Pick>>
+        {
+            new ColumnDefinition<Pick> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<Pick> { Header = "Year", Value = x => x.Entry?.Event?.Year},
+            new ColumnDefinition<Pick> { Header = "Tournament", Value = x => x.Entry?.Event?.Tournament?.Name ?? ""},
+            new ColumnDefinition<Pick> { Header = "Player", Value = x => x.Entry?.Player?.Name ?? ""},
+            new ColumnDefinition<Pick> { Header = "Pick #", Value = x => x.Round},
+            new ColumnDefinition<Pick> { Header = "Golfer", Value = x => x.Golfer?.Name ?? ""},
+        },
+        RowActions = new List<RowAction<Pick>>
+        {
+            new RowAction<Pick> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<Pick> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<Pick>>
+        {
+            new TableAction<Pick> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<Pick> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<Pick> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
+
+    private async Task<ApiResponse<IList<Pick>>> GetItems() => await PicksDataService.GetAll();
+
+    private static void Details(Pick x)
+    {
+        Console.WriteLine($"Pick Details: {x.Id}, {x.Entry?.Event?.Tournament?.Name}, {x.Golfer?.Name}, {x.Round}");
+    }
+
+    private static void Edit(Pick x)
+    {
+        Console.WriteLine($"Pick Details: {x.Id}, {x.Entry?.Event?.Tournament?.Name}, {x.Golfer?.Name}, {x.Round}");
+    }
+
+    private static void Add(IList<Pick> picks)
+    {
+        Console.WriteLine("Add a new entry");
+    }
+
+    private static void Clear(IList<Pick> picks)
+    {
+        Console.WriteLine("Clear entries");
+    }
+
+    private static void Export(IList<Pick> entries)
+    {
+        Console.WriteLine("Export entries");
+    }
+
+
+
+}

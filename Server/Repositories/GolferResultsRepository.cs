@@ -15,7 +15,7 @@ namespace HawksNestGolf.NET.Server.Repositories
             query.Include(x => x.Golfer).Include(x => x.Event).Include(x => x.Event!.Tournament);
 
         public override IOrderedQueryable<GolferResult> DefaultSort(IQueryable<GolferResult> query) => 
-            query.OrderBy(x => x.Event!.EventNo).ThenBy(x => x.PosVal);
+            query.OrderBy(x => x.Event!.EventNo).ThenByDescending(x => x.Points).ThenBy(x => x.Id);
 
         public override IList<SortProperty<GolferResult>> SortOrderDefintion() => new List<SortProperty<GolferResult>>
             {

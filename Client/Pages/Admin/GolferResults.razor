@@ -1,0 +1,63 @@
+﻿@page "/admin/golferresults"
+@inject IGolferResultsDataService GolferResultsDataService
+
+<AdminPage tableDefinition=@table header=@header title=@title getItems="@GetItems" />
+
+@code {
+    private string header = "Golfer Results";
+    private string title = "Hawks Nest Golf - Golfer Results";
+    private async Task<ApiResponse<IList<GolferResult>>> GetItems() => await GolferResultsDataService.GetAll();
+
+    private TableDefinition<GolferResult> table = new TableDefinition<GolferResult>
+    {
+        Columns = new List<ColumnDefinition<GolferResult>>
+        {
+            new ColumnDefinition<GolferResult> { Header = "Id", Value = x => x.Id},
+            new ColumnDefinition<GolferResult> { Header = "Year", Value = x => x.Event?.Year},
+            new ColumnDefinition<GolferResult> { Header = "Tournament", Value = x => x.Event?.Tournament?.Name},
+            new ColumnDefinition<GolferResult> { Header = "Golfer", Value = x => x.Golfer?.Name},
+            new ColumnDefinition<GolferResult> { Header = "Pos", Value = x => x.Position},
+            new ColumnDefinition<GolferResult> { Header = "Points", Value = x => x.Points},
+        },
+        RowActions = new List<RowAction<GolferResult>>
+        {
+            new RowAction<GolferResult> { Icon = "oi oi-list", DisplayLabel = "Details", Tooltip = "Details", Action = x => Details(x)},
+            new RowAction<GolferResult> { Icon = "oi oi-pencil", DisplayLabel = "Edit", Tooltip = "Edit", Action = x => Edit(x)}
+        },
+        TableActions = new List<TableAction<GolferResult>>
+        {
+            new TableAction<GolferResult> { Icon = "oi oi-plus", DisplayLabel = "Add", Tooltip = "Add new item", Action = x => Add(x)},
+            new TableAction<GolferResult> { Icon = "oi oi-trash", DisplayLabel = "Delete All", Tooltip = "Clear Table", Action = x => Clear(x)},
+            new TableAction<GolferResult> { Icon = "oi oi-spreadsheet", DisplayLabel = "Export to csv", Tooltip = "Export to csv", Action = x => Export(x)}
+        }
+    };
+
+
+    private static void Details(GolferResult r)
+    {
+        Console.WriteLine($"GolferResult Details: {r.Id}, {r.GolferId}, {r.EventId}");
+    }
+
+    private static void Edit(GolferResult r)
+    {
+        Console.WriteLine($"GolferResult Details: {r.Id}, {r.GolferId}, {r.EventId}");
+    }
+
+    private static void Add(IList<GolferResult> results)
+    {
+        Console.WriteLine("Add a new result");
+    }
+
+    private static void Clear(IList<GolferResult> results)
+    {
+        Console.WriteLine("Clear results");
+    }
+
+    private static void Export(IList<GolferResult> results)
+    {
+        Console.WriteLine("Export results");
+    }
+
+
+
+}
