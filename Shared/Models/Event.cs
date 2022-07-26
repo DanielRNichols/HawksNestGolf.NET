@@ -18,6 +18,6 @@ namespace HawksNestGolf.NET.Shared.Models
         public string? Url { get; set; } = string.Empty;
         public string? Url2 { get; set; } = string.Empty;
 
-        public Tournament Tournament { get; set; } = new Tournament();
+        public Tournament? Tournament { get; set; }
     }
 }

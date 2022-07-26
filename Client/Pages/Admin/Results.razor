@@ -6,15 +6,17 @@
 @code {
     private string header = "Results";
     private string title = "Hawks Nest Golf - Results";
+    private async Task<ApiResponse<IList<Result>>> GetItems() => await ResultsDataService.GetAll();
+
     private TableDefinition<Result> table = new TableDefinition<Result>
     {
         Columns = new List<ColumnDefinition<Result>>
         {
             new ColumnDefinition<Result> { Header = "Id", Value = x => x.Id},
-            new ColumnDefinition<Result> { Header = "Year", Value = x => x.Entry.Event.Year},
-            new ColumnDefinition<Result> { Header = "Tournament", Value = x => x.Entry.Event.Tournament?.Name},
-            new ColumnDefinition<Result> { Header = "Bet", Value = x => x.Bet.Name},
-            new ColumnDefinition<Result> { Header = "Player", Value = x => x.Entry.Player.Name},
+            new ColumnDefinition<Result> { Header = "Year", Value = x => x.Entry?.Event?.Year},
+            new ColumnDefinition<Result> { Header = "Tournament", Value = x => x.Entry?.Event?.Tournament?.Name},
+            new ColumnDefinition<Result> { Header = "Bet", Value = x => x.Bet?.Name},
+            new ColumnDefinition<Result> { Header = "Player", Value = x => x.Entry?.Player?.Name},
             new ColumnDefinition<Result> { Header = "Amount", Value = x => x.Amount},
         },
         RowActions = new List<RowAction<Result>>
@@ -30,7 +32,6 @@
         }
     };
 
-    private async Task<ApiResponse<IList<Result>>> GetItems() => await ResultsDataService.GetAll();
 
     private static void Details(Result r)
     {

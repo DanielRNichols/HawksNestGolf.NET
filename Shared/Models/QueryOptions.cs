@@ -1,33 +1,22 @@
-﻿namespace HawksNestGolf.NET.Shared.Models
+﻿using HawksNestGolf.NET.Shared.Enums;
+
+namespace HawksNestGolf.NET.Shared.Models
 {
-    public enum SortDirection
+    public class QueryOptions
     {
-        Ascending,
-        Descending
-    }
+        public bool IncludeRelated { get; set; }
+        public SortOption[]? OrderBy { get; set; }
+        public int Take { get; set; }
+        public int Skip { get; set; }
 
-    public class SortOption
-    {
-        private string _name = string.Empty;
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value.ToLower();
-            }
-        }
-
-        public SortDirection Direction { get; set; } = SortDirection.Ascending;
-
-        public static SortOption[] FromQueryStringParameter(string? queryStringParam)
+        public static SortOption[] SortOptionsFromQueryString(string? queryString)
         {
             IList<SortOption> sortOptions = new List<SortOption>();
-            if (queryStringParam is null)
+            if (queryString is null)
                 return sortOptions.ToArray();
 
             // parse "name1,desc;name2"
-            var options = queryStringParam.Split(';');
+            var options = queryString.Split(';');
             foreach (var option in options)
             {
                 var sortOption = ParseSortOptionsString(option);
@@ -52,13 +41,6 @@
                 Direction = dir == "desc" ? SortDirection.Descending : SortDirection.Ascending
             };
         }
-    }
 
-    public class QueryOptions
-    {
-        public bool IncludeRelated { get; set; }
-        public SortOption[]? OrderBy { get; set; }
-        public int Take { get; set; }
-        public int Skip { get; set; }
     }
 }

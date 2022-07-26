@@ -14,7 +14,7 @@ namespace HawksNestGolf.NET.Shared.Models
         public int EntryId { get; set; }
         public decimal Amount { get; set; }
 
-        public Bet Bet { get; set; } = new Bet();
-        public Entry Entry { get; set; } = new Entry();
+        public Bet? Bet { get; set; }
+        public Entry? Entry { get; set; }
     }
 }

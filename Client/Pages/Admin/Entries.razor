@@ -11,9 +11,9 @@
         Columns = new List<ColumnDefinition<Entry>>
         {
             new ColumnDefinition<Entry> { Header = "Id", Value = x => x.Id},
-            new ColumnDefinition<Entry> { Header = "Year", Value = x => x.Event.Year},
-            new ColumnDefinition<Entry> { Header = "Tournament", Value = x => x.Event.Tournament.Name ?? ""},
-            new ColumnDefinition<Entry> { Header = "Player", Value = x => x.Player.Name ?? ""},
+            new ColumnDefinition<Entry> { Header = "Year", Value = x => x.Event?.Year},
+            new ColumnDefinition<Entry> { Header = "Tournament", Value = x => x.Event?.Tournament?.Name ?? ""},
+            new ColumnDefinition<Entry> { Header = "Player", Value = x => x.Player?.Name ?? ""},
             new ColumnDefinition<Entry> { Header = "Pick #", Value = x => x.PickNumber},
         },
         RowActions = new List<RowAction<Entry>>
@@ -33,12 +33,12 @@
 
     private static void Details(Entry e)
     {
-        Console.WriteLine($"Entry Details: {e.Id}, {e.Event.Tournament.Name}, {e.Player.Name}, {e.PickNumber}");
+        Console.WriteLine($"Entry Details: {e.Id}, {e.Event?.Tournament?.Name}, {e.Player?.Name}, {e.PickNumber}");
     }
 
     private static void Edit(Entry e)
     {
-        Console.WriteLine($"Entry Details: {e.Id}, {e.Event.Tournament.Name}, {e.Player.Name}, {e.PickNumber}");
+        Console.WriteLine($"Entry Details: {e.Id}, {e.Event?.Tournament?.Name}, {e.Player?.Name}, {e.PickNumber}");
     }
 
     private static void Add(IList<Entry> entries)

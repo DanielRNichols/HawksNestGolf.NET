@@ -8,8 +8,6 @@ namespace HawksNestGolf.NET.Server.Repositories
     {
         public PlayersRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.Players) {}
 
-        public override IOrderedQueryable<Player> DefaultSort(IQueryable<Player> query) => query.OrderBy(x => x.Name);
-
         public override IList<SortProperty<Player>> SortOrderDefintion() => new List<SortProperty<Player>>
             {
                 new SortProperty<Player> { Name = "name", OrderByFunc = x => x.Name ?? ""},

@@ -3,6 +3,6 @@
     public class ColumnDefinition<T>
     {
         public string Header { get; set; } = string.Empty;
-        public Func<T, object> Value { get; set; } = (_) => "";
+        public Func<T, object?> Value { get; set; } = (_) => "";
     }
 }

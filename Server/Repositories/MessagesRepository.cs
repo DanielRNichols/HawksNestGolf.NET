@@ -16,7 +16,7 @@ namespace HawksNestGolf.NET.Server.Repositories
         public override IList<SortProperty<Message>> SortOrderDefintion() => new List<SortProperty<Message>>
             {
                 new SortProperty<Message> { Name = "content", OrderByFunc = x => x.Content ?? "" },
-                new SortProperty<Message> { Name = "player", OrderByFunc = x => x.Player == null ? "" : x.Player.Name ?? "" },
+                new SortProperty<Message> { Name = "player", OrderByFunc = x => x.Player!.Name ?? "" },
                 new SortProperty<Message> { Name = "id", OrderByFunc = x => x.Id }
             };
 

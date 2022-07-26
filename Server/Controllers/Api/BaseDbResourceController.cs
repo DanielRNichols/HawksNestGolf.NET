@@ -26,7 +26,7 @@ namespace HawksNestGolf.NET.Server.Controllers.Api
             var queryOptions = new QueryOptions
             {
                 IncludeRelated = includeRelated,
-                OrderBy = SortOption.FromQueryStringParameter(orderBy),
+                OrderBy = QueryOptions.SortOptionsFromQueryString(orderBy),
                 Skip = skip,
                 Take = take
             };

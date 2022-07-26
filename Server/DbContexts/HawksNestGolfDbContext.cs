@@ -17,6 +17,7 @@ namespace HawksNestGolf.NET.Server.DbContexts
         public DbSet<Event> Events => Set<Event>();
         public DbSet<Entry> Entries => Set<Entry>();
         public DbSet<Result> Results => Set<Result>();
+        public DbSet<GolferResult> EventResultGolfers => Set<GolferResult>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

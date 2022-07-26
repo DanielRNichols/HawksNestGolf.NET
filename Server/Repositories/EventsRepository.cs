@@ -26,7 +26,7 @@ namespace HawksNestGolf.NET.Server.Repositories
             {
                 new SortProperty<Event> { Name = "eventno", OrderByFunc = x => x.EventNo },
                 new SortProperty<Event> { Name = "year", OrderByFunc = x => x.Year },
-                new SortProperty<Event> { Name = "tournament", OrderByFunc = x => x.Tournament.Name },
+                new SortProperty<Event> { Name = "tournament", OrderByFunc = x => x.Tournament!.Name },
                 new SortProperty<Event> { Name = "status", OrderByFunc = x => x.Status },
                 new SortProperty<Event> { Name = "id", OrderByFunc = x => x.Id }
             };

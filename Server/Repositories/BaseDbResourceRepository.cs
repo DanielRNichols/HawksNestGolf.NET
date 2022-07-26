@@ -1,4 +1,5 @@
 ﻿using HawksNestGolf.NET.Server.DbContexts;
+using HawksNestGolf.NET.Shared.Enums;
 using HawksNestGolf.NET.Shared.Interfaces.Repositories;
 using HawksNestGolf.NET.Shared.Models;
 using Microsoft.EntityFrameworkCore;

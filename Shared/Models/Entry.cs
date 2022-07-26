@@ -15,7 +15,7 @@ namespace HawksNestGolf.NET.Shared.Models
         public int PickNumber { get; set; }
         public string? EntryName { get; set; } = string.Empty;
 
-        public Event Event { get; set; } = new Event();
-        public Player Player { get; set; } = new Player();
+        public Event? Event { get; set; }
+        public Player? Player { get; set; }
     }
 }
