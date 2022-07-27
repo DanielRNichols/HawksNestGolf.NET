@@ -7,7 +7,7 @@ namespace HawksNestGolf.NET.Server.Repositories
 {
     public class GolferResultsRepository : BaseDbResourceRepository<GolferResult>, IGolferResultsRepository
     {
-        public GolferResultsRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.EventResultGolfers) 
+        public GolferResultsRepository(HawksNestGolfDbContext dbContext) : base(dbContext, dbContext.GolferResults) 
         {
         }
 

@@ -6,11 +6,6 @@ using System.Linq.Expressions;
 
 namespace HawksNestGolf.NET.Server.Repositories
 {
-    public class SortProperty<T>
-    {
-        public string Name { get; set; } = string.Empty;
-        public Expression<Func<T, object>>? OrderByFunc { get; set; } 
-    }
 
     public class EventsRepository : BaseDbResourceRepository<Event>, IEventsRepository
     {
@@ -18,7 +13,8 @@ namespace HawksNestGolf.NET.Server.Repositories
         {
         }
 
-        public override IQueryable<Event> IncludeRelated(IQueryable<Event> query) => query.Include(x => x.Tournament);
+        public override IQueryable<Event> IncludeRelated(IQueryable<Event> query) => 
+            query.Include(x => x.Tournament).Include(x => x.EventStatus);
 
         public override IOrderedQueryable<Event> DefaultSort(IQueryable<Event> query) => query.OrderBy(x => x.EventNo);
 
@@ -27,7 +23,7 @@ namespace HawksNestGolf.NET.Server.Repositories
                 new SortProperty<Event> { Name = "eventno", OrderByFunc = x => x.EventNo },
                 new SortProperty<Event> { Name = "year", OrderByFunc = x => x.Year },
                 new SortProperty<Event> { Name = "tournament", OrderByFunc = x => x.Tournament!.Name },
-                new SortProperty<Event> { Name = "status", OrderByFunc = x => x.Status },
+                new SortProperty<Event> { Name = "status", OrderByFunc = x => x.EventStatus!.Value },
                 new SortProperty<Event> { Name = "id", OrderByFunc = x => x.Id }
             };
     }
