@@ -4,6 +4,7 @@ using HawksNestGolf.NET.Client.Services;
 using HawksNestGolf.NET.Shared.Models;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor.Services;
 
 namespace HawksNestGolf.NET.Client
 {
@@ -12,6 +13,9 @@ namespace HawksNestGolf.NET.Client
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+            builder.Services.AddMudServices();
+
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
