@@ -18,6 +18,14 @@ namespace HawksNestGolf.NET.Server.Controllers.Api
             _repo = repo;
         }
 
+        /// <summary>
+        /// GetAll Items
+        /// </summary>
+        /// <param name="includeRelated"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
         [HttpGet]
         public virtual async Task<ActionResult<ApiResponse<IList<T>>>> GetAll(bool includeRelated = true, string? orderBy = "", int skip = 0, int take = 0)
         {

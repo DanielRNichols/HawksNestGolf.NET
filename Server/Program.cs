@@ -5,12 +5,16 @@ using HawksNestGolf.NET.Server.Repositories;
 using HawksNestGolf.NET.Shared.Interfaces.Repositories;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace HawksNestGolf.NET
 {
     public class Program
     {
+        private static string XmlCommentsPath => 
+            Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +25,10 @@ namespace HawksNestGolf.NET
 
             // Add Swagger
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.IncludeXmlComments(XmlCommentsPath);
+            });
 
             // Add Database
             builder.Services.AddDbContext<HawksNestGolfDbContext>(options =>

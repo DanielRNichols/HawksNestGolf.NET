@@ -12,5 +12,17 @@ namespace HawksNestGolf.NET.Server.Controllers.Api
         public BetsController(ILogger<BetsController> logger, IBetsRepository repo) : base(logger, repo)
         {
         }
+
+        /// <summary>
+        /// Get All Bets
+        /// </summary>
+        /// <remarks>
+        /// Document orderby here
+        /// </remarks>
+        [HttpGet]
+        public override Task<ActionResult<ApiResponse<IList<Bet>>>> GetAll(bool includeRelated = true, string? orderBy = "", int skip = 0, int take = 0)
+        {
+            return base.GetAll(includeRelated, orderBy, skip, take);
+        }
     }
 }
